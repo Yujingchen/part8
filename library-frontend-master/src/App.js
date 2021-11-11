@@ -3,28 +3,37 @@ import React, { useState, useEffect } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
+import { ALL_BOOKS } from './query'
 
-const ALL_BOOKS = gql`
-query {
-    allBooks {
-        title,
-        author,
-        genres,
-        published
-    }
-}
-`
 
 
 
 const App = () => {
   const [page, setPage] = useState('authors')
-  const [books, setBooks] = useState([])
+  const [errorMessage, setErrorMessage] = useState([])
   const sqlResult = useQuery(ALL_BOOKS)
   if(!sqlResult.data) {
     return <div>loading..</div>
   }
+  const showNotification = (message)=>{
+    setErrorMessage(message)
+    setTimeout(()=>{
+      setErrorMessage(null)
+    }, 5000)
+  }
+
+  const Notification = ({errorMessage}) => {
+    if ( !errorMessage ) {
+      return null
+    }
+    return (
+      <div style={{color: 'red'}}>
+      {errorMessage}
+      </div>
+    )
+  }
+
   return (
     <div>
       <div>
@@ -32,7 +41,7 @@ const App = () => {
         <button onClick={() => setPage('books')}>books</button>
         <button onClick={() => setPage('add')}>add book</button>
       </div>
-
+      <Notification errorMessage={errorMessage}></Notification>
       <Authors
         show={page === 'authors'}
       />
@@ -44,6 +53,7 @@ const App = () => {
 
       <NewBook
         show={page === 'add'}
+        setError={showNotification}
       />
 
     </div>

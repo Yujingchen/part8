@@ -1,48 +1,34 @@
 import React,{ useEffect, useState } from 'react'
-import { gql, useLazyQuery, useQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
+import { FIND_BOOK } from '../query'
 
-
-const FIND_BOOK = gql`
-query findBookByTitle($titleToSearch: String!){
-    findBook(title: $titleToSearch) {
-        title,
-        author,
-        genres,
-        published,
-        info{
-          published,
-          genres
-        }
-    }
-}
-`
 
 const Books = (props) => {
   const { books } = props
-  const [book, setBook] = useState({})
+  const [book, setBook] = useState(null)
   // call the query using lazyQuery
   const [getBook, result] = useLazyQuery(FIND_BOOK)
   const showBook = (title)=>{
     getBook({variables:{titleToSearch: title}})
+    console.log(book)
   }
   // rerender the compinent when receive a result from lazyQuery
   useEffect(()=>{
     if(result.data){
       setBook(result.data.findBook)
     }
-  },[result])
-
+  },[result.data])
   if(!props.show || !books) {
     return null
   }
-  console.log(!Object.keys(book).length === 0)
-  if(!Object.keys(book).length === 0) {
+  if(book) {
     return (
       <div>
-        <h2>{book.title}</h2>
-        <h2>{book.info?.published}</h2>
-        <h2>{book.info?.genres.map(g=><span>{g} </span>)}</h2>
-        <h2>{book.author}</h2>
+        <h5>{book.title}</h5>
+        <h5>{book.info?.published}</h5>
+        <h5>{book.info?.genres.map(g=><span>{g} </span>)}</h5>
+        <h5>{book.author}</h5>
+        <button onClick={() => setBook(null)}>close</button>
       </div>
     )
   }
@@ -50,7 +36,6 @@ const Books = (props) => {
   return (
     <div>
       <h2>books</h2>
-
       <table>
         <tbody>
           <tr>
