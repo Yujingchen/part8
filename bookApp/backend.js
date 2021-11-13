@@ -1,5 +1,14 @@
 const { ApolloServer, gql } = require('apollo-server')
 const { v1: uuid } = require('uuid')
+const mongoose = require('mongoose')
+const Book = require('./models/books')
+const Author = require('./models/author')
+const config = require('./utils/config')
+
+const url = config.MONGODB_URI
+console.log('connected to mongodb')
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true})
+    .catch(error => console.log('error connecting to MongoDb:', error.message))
 
 let authors = [
   {
@@ -26,16 +35,6 @@ let authors = [
     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
   },
 ]
-
-/*
- * Suomi:
- * Saattaisi olla järkevämpää assosioida kirja ja sen tekijä tallettamalla kirjan yhteyteen tekijän nimen sijaan tekijän id
- * Yksinkertaisuuden vuoksi tallennamme kuitenkin kirjan yhteyteen tekijän nimen
- *
- * English:
- * It might make more sense to associate a book with its author by storing the author's name in the context of the book instead of the author's id
- * However, for simplicity, we will store the author's name in connection with the book
-*/
 
 let books = [
   {
@@ -89,6 +88,7 @@ let books = [
   },
 ]
 
+
 const typeDefs = gql`
   type Author {
     name: String!
@@ -139,11 +139,13 @@ type Mutation {
 const resolvers = {
   Query: {
     allBooks: (root, args) => {
-      if(!args) {
-        return books
+      const book = Book.find({})
+      if(! (args.name||args.genres)) {
+        console.log('called', book)
+        return book
       }
       else {
-        let filteredBooks = books
+        let filteredBooks = book
         if(args.author) {
            filteredBooks = filteredBooks.filter((book) => book.author === args.author)
         }
@@ -151,6 +153,7 @@ const resolvers = {
          filteredBooks = filteredBooks.filter((book) => book.genres.includes(args.genres))
         console.log(filteredBooks)
         }
+        console.log('called2')
         return filteredBooks
       }
     },
