@@ -47,21 +47,22 @@ query findBookByTitle($titleToSearch: String!){
 }
 `
 
-export const EDIT_NUMBER = gql`
-  mutation editNumber($title: String!, $author: String!, $published: Int!, $genres: [String!]) {
-    editNumber(
-        title: $title,
-        author: $author,
-        published: $published,
-        genres: $genres)  {
-            title
-            author
-            published
-            genres
-            info {
-                published
-                genres
-            }
-        }
+
+export const ALL_AUTHORS = gql`
+query {
+  allAuthor {
+    name
+    born
+    bookCount
   }
+}
+`
+
+export const EDIT_AUTHOR = gql`
+mutation editAuthorBorn($name: String!, $setBornTo: Int!) {
+  editAuthor(name: $name, setBornTo: $setBornTo) {
+    name
+    born
+  }
+}
 `

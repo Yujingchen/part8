@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
@@ -44,6 +44,7 @@ const App = () => {
       <Notification errorMessage={errorMessage}></Notification>
       <Authors
         show={page === 'authors'}
+        setError={showNotification}
       />
 
       <Books
