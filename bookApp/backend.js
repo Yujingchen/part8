@@ -146,7 +146,7 @@ const resolvers = {
       }
       else {
         let filteredBooks = book
-        if(args.author) {
+        if(args.author) {w
            filteredBooks = filteredBooks.filter((book) => book.author === args.author)
         }
         if(args.genres) {
