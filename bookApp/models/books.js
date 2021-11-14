@@ -7,10 +7,6 @@ const schema = new mongoose.Schema({
         require: true,
         unique: true
     },
-    author: {
-        type: String,
-        require: true
-    },
     published: {
         type: Number,
         require: true
@@ -18,10 +14,12 @@ const schema = new mongoose.Schema({
     genres: {
         type: [{type: 'String'}]
     },
-    // info: {
-    //     type: {published: 'Number', genres: {type: ['String']}}
-    // }
+    author: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Author'
+    }
 })
 
 schema.plugin(uniqueValidator);
-module.exports = mongoose.model('Book', schema)
+const Book = mongoose.model('Book', schema)
+module.exports = Book
