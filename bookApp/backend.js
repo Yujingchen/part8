@@ -124,6 +124,18 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true})
 
 // fn()
 
+// const fn = async ()=> {
+//   books.forEach(async(book)=> {
+//   let book1 = new Book(book)
+//   await book1.save();
+//   })
+
+//   authors.forEach(async(author) => {
+//     let author1 = new Author(author)
+//   await author1.save();
+//   })
+// }
+// fn()
 const typeDefs = gql`
   type Author {
     name: String!
@@ -145,6 +157,10 @@ const typeDefs = gql`
   }
   type User {
     username: String!
+<<<<<<< HEAD
+=======
+    friends: [Author!,Book!]
+>>>>>>> 8babce4d9198bd39c65abb4b14bc736b62b11478
     id: ID!
   }
   type Token {
@@ -162,11 +178,19 @@ const typeDefs = gql`
 type Mutation {
   createUser(
     username:String!
+<<<<<<< HEAD
   ): User
   login(
     username: String!
     password: String!
   ): Token
+=======
+  ):User
+  login(
+    username: String!
+    password: String!
+  ):Token
+>>>>>>> 8babce4d9198bd39c65abb4b14bc736b62b11478
   addBook(
     title: String!
     published: Int!
@@ -188,16 +212,25 @@ type Mutation {
 const resolvers = {
   Query: {
     allBooks: async (root, args) => {
+<<<<<<< HEAD
       const book = await Book.find().populate()
       console.log(book)
       if(! (args.name || args.genres)) {
         console.log(book)
+=======
+      const book = await Book.find()
+      if(! (args.name||args.genres)) {
+>>>>>>> 8babce4d9198bd39c65abb4b14bc736b62b11478
         return book
       }
       else {
         let filteredBooks = book
         if(args.author) {
+<<<<<<< HEAD
            filteredBooks = filteredBooks.filter((book) => book.author.name === args.author)
+=======
+           filteredBooks = filteredBooks.filter((book) => book.author === args.author)
+>>>>>>> 8babce4d9198bd39c65abb4b14bc736b62b11478
         }
         if(args.genres) {
          filteredBooks = filteredBooks.filter((book) => book.genres.includes(args.genres))
@@ -239,6 +272,7 @@ const resolvers = {
       return { value: jwt.sign(userForToken, JWT_SECRET)}
     },
     addBook: async (root, args) => {
+<<<<<<< HEAD
       const authorInDb = (await Author.find({ name: args.author}))[0]
       if(!authorInDb) {
         const author = new Author({ name: args.author })
@@ -257,6 +291,19 @@ const resolvers = {
         try {
           await book.save()
           return book
+=======
+      const book = new Book({ ...args })
+      try {
+        await book.save()
+      }
+      catch(error) {
+        throw new UserInputError(error.message, {invalidArgs: args})
+      }
+      if(!Author.find(args.author)) {
+        const author = new Author({name: args.author})
+        try {
+          await book.save()
+>>>>>>> 8babce4d9198bd39c65abb4b14bc736b62b11478
         }
         catch(error) {
           throw new UserInputError(error.message, {invalidArgs: args})
@@ -268,6 +315,7 @@ const resolvers = {
       if (!book) {
         return null
       }
+<<<<<<< HEAD
       else {
         const authorInDb = (await Author.find({ name: args.author}))[0]
         if(!authorInDb) {
@@ -299,6 +347,23 @@ const resolvers = {
       }
       const updatedAuthor = author
       updatedAuthor['born'] = args.setBornTo
+=======
+      const updatedBook = { ...book, author: args.author, published: args.published, genres: args.genres}
+      try {
+        return await Book.findOneAndUpdate({title: args.title}, updatedBook)
+      }
+      catch(error) {
+        throw new UserInputError(error.message, {invalidArgs: args})
+      }
+    },
+    editAuthor: async (root, args) => {
+      const author = await Author.find({ name: args.name})
+      if(!author) {
+        return null
+      }
+      const updatedAuthor = { ...author, born: args.setBornTo }
+      console.log(updatedAuthor)
+>>>>>>> 8babce4d9198bd39c65abb4b14bc736b62b11478
       try {
         return await Author.findOneAndUpdate({name: args.name}, updatedAuthor)
       }
