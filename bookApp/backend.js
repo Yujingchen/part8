@@ -12,100 +12,116 @@ console.log('connected to mongodb')
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true})
     .catch(error => console.log('error connecting to MongoDb:', error.message))
 
-let authors = [
-  {
-    name: 'Robert Martin',
-    id: "afa51ab0-344d-11e9-a414-719c6709cf3e",
-    born: 1952,
-  },
-  {
-    name: 'Martin Fowler',
-    id: "afa5b6f0-344d-11e9-a414-719c6709cf3e",
-    born: 1963
-  },
-  {
-    name: 'Fyodor Dostoevsky',
-    id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
-    born: 1821
-  },
-  { 
-    name: 'Joshua Kerievsky', // birthyear not known
-    id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
-  },
-  { 
-    name: 'Sandi Metz', // birthyear not known
-    id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
-  },
-]
+// let authors = [
+//   {
+//     name: 'Robert Martin',
+//     id: "afa51ab0-344d-11e9-a414-719c6709cf3e",
+//     born: 1952,
+//   },
+//   {
+//     name: 'Martin Fowler',
+//     id: "afa5b6f0-344d-11e9-a414-719c6709cf3e",
+//     born: 1963
+//   },
+//   {
+//     name: 'Fyodor Dostoevsky',
+//     id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
+//     born: 1821
+//   },
+//   { 
+//     name: 'Joshua Kerievsky', // birthyear not known
+//     id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
+//   },
+//   { 
+//     name: 'Sandi Metz', // birthyear not known
+//     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
+//   },
+// ]
 
-let books = [
-  {
-    title: 'Clean Code',
-    published: 2008,
-    author: 'Robert Martin',
-    id: "afa5b6f4-344d-11e9-a414-719c6709cf3e",
-    genres: ['refactoring']
-  },
-  {
-    title: 'Agile software development',
-    published: 2002,
-    author: 'Robert Martin',
-    id: "afa5b6f5-344d-11e9-a414-719c6709cf3e",
-    genres: ['agile', 'patterns', 'design']
-  },
-  {
-    title: 'Refactoring, edition 2',
-    published: 2018,
-    author: 'Martin Fowler',
-    id: "afa5de00-344d-11e9-a414-719c6709cf3e",
-    genres: ['refactoring']
-  },
-  {
-    title: 'Refactoring to patterns',
-    published: 2008,
-    author: 'Joshua Kerievsky',
-    id: "afa5de01-344d-11e9-a414-719c6709cf3e",
-    genres: ['refactoring', 'patterns']
-  },  
-  {
-    title: 'Practical Object-Oriented Design, An Agile Primer Using Ruby',
-    published: 2012,
-    author: 'Sandi Metz',
-    id: "afa5de02-344d-11e9-a414-719c6709cf3e",
-    genres: ['refactoring', 'design']
-  },
-  {
-    title: 'Crime and punishment',
-    published: 1866,
-    author: 'Fyodor Dostoevsky',
-    id: "afa5de03-344d-11e9-a414-719c6709cf3e",
-    genres: ['classic', 'crime']
-  },
-  {
-    title: 'The Demon ',
-    published: 1872,
-    author: 'Fyodor Dostoevsky',
-    id: "afa5de04-344d-11e9-a414-719c6709cf3e",
-    genres: ['classic', 'revolution']
-  },
-]
+// let books = [
+//   {
+//     title: 'Clean Code',
+//     published: 2008,
+//     author: 'Robert Martin',
+//     id: "afa5b6f4-344d-11e9-a414-719c6709cf3e",
+//     genres: ['refactoring']
+//   },
+//   {
+//     title: 'Agile software development',
+//     published: 2002,
+//     author: 'Robert Martin',
+//     id: "afa5b6f5-344d-11e9-a414-719c6709cf3e",
+//     genres: ['agile', 'patterns', 'design']
+//   },
+//   {
+//     title: 'Refactoring, edition 2',
+//     published: 2018,
+//     author: 'Martin Fowler',
+//     id: "afa5de00-344d-11e9-a414-719c6709cf3e",
+//     genres: ['refactoring']
+//   },
+//   {
+//     title: 'Refactoring to patterns',
+//     published: 2008,
+//     author: 'Joshua Kerievsky',
+//     id: "afa5de01-344d-11e9-a414-719c6709cf3e",
+//     genres: ['refactoring', 'patterns']
+//   },  
+//   {
+//     title: 'Practical Object-Oriented Design, An Agile Primer Using Ruby',
+//     published: 2012,
+//     author: 'Sandi Metz',
+//     id: "afa5de02-344d-11e9-a414-719c6709cf3e",
+//     genres: ['refactoring', 'design']
+//   },
+//   {
+//     title: 'Crime and punishment',
+//     published: 1866,
+//     author: 'Fyodor Dostoevsky',
+//     id: "afa5de03-344d-11e9-a414-719c6709cf3e",
+//     genres: ['classic', 'crime']
+//   },
+//   {
+//     title: 'The Demon ',
+//     published: 1872,
+//     author: 'Fyodor Dostoevsky',
+//     id: "afa5de04-344d-11e9-a414-719c6709cf3e",
+//     genres: ['classic', 'revolution']
+//   },
+// ]
 
 // const fn = async ()=> {
-//   books.forEach(async(book)=> {  
-//     try {
-//       const authorInDb = (await Author.find({ name: book.author}))[0]
-//       let book1 = new Book({ ...book, author: authorInDb })
-//       await book1.save();
+//   books.forEach(async(b)=> {  
+//     const authorInDb = (await Author.find({ name: b.author}))[0]
+//     if(!authorInDb) {
+//       const author = new Author({ name: b.author })
+//       try {
+//         const newAuthor = await author.save()
+//         const book = new Book({ ...book, author: newAuthor.id })
+//         await book.save()
+//         return book
+//       }
+//       catch(error) {
+//         throw new UserInputError(error.message, {invalidArgs: b})
+//       }
 //     }
-//     catch(error) {
-//       console.log(error)}
-//   })
-
-//   authors.forEach(async(author) => {
-//     let author1 = new Author(author)
-//   await author1.save();
+//     else {
+//       const book = new Book({ ...b, author: authorInDb.id })
+//       try {
+//         await book.save()
+//         return book
+//       }
+//       catch(error) {
+//         throw new UserInputError(error.message, {invalidArgs: b})
+//       }
+//     }
 //   })
 // }
+  // authors.forEach(async(author) => {
+  //   let author1 = new Author(author)
+  // await author1.save();
+  // })
+
 // fn()
 
 const typeDefs = gql`
@@ -172,8 +188,10 @@ type Mutation {
 const resolvers = {
   Query: {
     allBooks: async (root, args) => {
-      const book = await Book.find()
+      const book = await Book.find().populate()
+      console.log(book)
       if(! (args.name || args.genres)) {
+        console.log(book)
         return book
       }
       else {
@@ -221,45 +239,66 @@ const resolvers = {
       return { value: jwt.sign(userForToken, JWT_SECRET)}
     },
     addBook: async (root, args) => {
-      const authorInDb = await Author.find({ name: args.author})
-      const book = new Book({ ...args, author: authorInDb })
-      try {
-        await book.save()
-      }
-      catch(error) {
-        throw new UserInputError(error.message, {invalidArgs: args})
-      }
-      if(!Author.find({ name: args.author})) {
+      const authorInDb = (await Author.find({ name: args.author}))[0]
+      if(!authorInDb) {
         const author = new Author({ name: args.author })
         try {
-          await author.save()
+          const newAuthor = await author.save()
+          const book = new Book({ ...args, author: newAuthor.id })
+          await book.save()
+          return book
         }
         catch(error) {
           throw new UserInputError(error.message, {invalidArgs: args})
         }
       }
-      return book
+      else {
+        const book = new Book({ ...args, author: authorInDb.id })
+        try {
+          await book.save()
+          return book
+        }
+        catch(error) {
+          throw new UserInputError(error.message, {invalidArgs: args})
+        }
+      }
     },
     editBook: async (root,args) => {
       const book = await Book.find({ title: args.title})
       if (!book) {
         return null
       }
-      const updatedBook = { ...book, author: args.author, published: args.published, genres: args.genres}
-      try {
-        return await Book.findOneAndUpdate({title: args.title}, updatedBook)
-      }
-      catch(error) {
-        throw new UserInputError(error.message, {invalidArgs: args})
+      else {
+        const authorInDb = (await Author.find({ name: args.author}))[0]
+        if(!authorInDb) {
+          const author = new Author({ name: args.author })
+          try {
+            const newAuthor = await author.save()
+            const updatedBook = { ...book, author: newAuthor.id, published: args.published, genres: args.genres}
+            return await Book.findOneAndUpdate({title: args.title}, updatedBook)
+          }
+          catch(error) {
+            throw new UserInputError(error.message, {invalidArgs: args})
+          }
+        }
+        else {
+          try {
+            const updatedBook = { ...book, author: authorInDb.id, published: args.published, genres: args.genres}
+            return await Book.findOneAndUpdate({title: args.title}, updatedBook)
+          }
+          catch(error) {
+            throw new UserInputError(error.message, {invalidArgs: args})
+          }
+        }
       }
     },
     editAuthor: async (root, args) => {
-      const author = await Author.find({ name: args.name})
+      const author = (await Author.find({ name: args.name}))[0]
       if(!author) {
         return null
       }
-      const updatedAuthor = { ...author, born: args.setBornTo }
-      console.log(updatedAuthor)
+      const updatedAuthor = author
+      updatedAuthor['born'] = args.setBornTo
       try {
         return await Author.findOneAndUpdate({name: args.name}, updatedAuthor)
       }
