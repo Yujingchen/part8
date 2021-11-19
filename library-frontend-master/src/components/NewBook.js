@@ -9,12 +9,23 @@ const NewBook = ({show, setError}) => {
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
   const [createBook] = useMutation(CREATE_BOOK, 
-    { refetchQueries: [{query: ALL_BOOKS}],
+    {
     onError: (error) => {
       console.log(error)
       setError("not able to add a new book due to wrong input")
-    }
-  })
+    },
+    update: (store, response) => {
+      const dataInStore = store.readQuery({query: ALL_BOOKS})
+      console.log(dataInStore)
+      console.log('res',response.data)
+      store.writeQuery({
+        query: ALL_BOOKS,
+        data: {
+          ...dataInStore,
+          allBooks: [ ...dataInStore.allBooks, response.data.addBook ]
+        }
+      })
+    }})
   
   if (!show) {
     return null
@@ -24,7 +35,14 @@ const NewBook = ({show, setError}) => {
     event.preventDefault()
     
     console.log('add book...')
-    createBook({  variables: { title, author, published, genres } })
+    createBook({  
+      variables: { 
+        title: title.length > 0 ? title : null,
+        author: author.length > 0 ? author : null,
+        published,
+        genres
+      }
+    })
     setTitle('')
     setPublished('')
     setAuthor('')

@@ -18,7 +18,6 @@ const Authors = ({show, setError}) => {
   })
 
 const options = authors.map(author => { return {value: author.name, label: author.name}})
-console.log(options)
   const updateAuthorClick = (event) => {
     event.preventDefault()
     changeBirthdate({ variables: {name: name.value, setBornTo: Number(birthdate)} })

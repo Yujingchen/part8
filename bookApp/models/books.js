@@ -5,7 +5,8 @@ const schema = new mongoose.Schema({
     title: {
         type: String,
         require: true,
-        unique: true
+        unique: true,
+        minlength: 4
     },
     published: {
         type: Number,
@@ -21,5 +22,4 @@ const schema = new mongoose.Schema({
 })
 
 schema.plugin(uniqueValidator);
-const Book = mongoose.model('Book', schema)
-module.exports = Book
+module.exports = mongoose.model('Book', schema)
